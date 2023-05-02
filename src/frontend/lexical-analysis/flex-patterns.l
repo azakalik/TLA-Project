@@ -14,32 +14,23 @@
 %option yylineno
 
 /* Contextos de Flex. */
-%x COMMENT
+%x EASYNOTESDIRECTIVE
 
 /* Patrones reutilizables. */
-digit			[0-9]
-endline			[\n]
-whitespace		[ \f\n\r\t\v]
+
 
 %%
 
-"/*"										{ BEGIN(COMMENT); BeginCommentPatternAction(); }
-<COMMENT>.									{ ; }
-<COMMENT>{endline}							{ ; }
-<COMMENT>"*/"								{ EndCommentPatternAction(); BEGIN(INITIAL); }
 
-"+"											{ return AdditionOperatorPatternAction(yytext); }
-"-"											{ return SubtractionOperatorPatternAction(yytext); }
-"*"											{ return MultiplicationOperatorPatternAction(yytext); }
-"/"											{ return DivisionOperatorPatternAction(yytext); }
 
-"("											{ return OpenParenthesisPatternAction(yytext); }
-")"											{ return CloseParenthesisPatternAction(yytext); }
-
-{digit}+									{ return IntegerPatternAction(yytext, yyleng); }
-
-{whitespace}								{ IgnoredPatternAction(yytext, yyleng); }
-
+"$"											{  return DolarSignPatternAction(yytext); BEGIN(EASYNOTESDIRECTIVE); }
+<EASYNOTESDIRECTIVE>"("                    { return OpenParenthesisPatternAction(yytext); }
+<EASYNOTESDIRECTIVE>")"                    { return CloseParenthesisPatternAction(yytext); }
+<EASYNOTESDIRECTIVE>"{"                      { return CurlyOpenPatternAction(yytext); }
+<EASYNOTESDIRECTIVE>"}"                      { return CurlyClosePatternAction(yytext); BEGIN(INITIAL); }
+<EASYNOTESDIRECTIVE>","                      { return ArgumentsSeparatorAction(yytext); }
+[^$]*                                        { return UserTextPatternAction(yytext, yyleng); }
 .											{ return UnknownPatternAction(yytext, yyleng); }
-
 %%
+
+

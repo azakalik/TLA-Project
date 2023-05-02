@@ -17,65 +17,56 @@
  * el que Bison proveerá como valor semántico al realizar una reducción
  * (mediante $1, $2, $3, etc.).
  */
-
-void BeginCommentPatternAction() {
-	LogDebug("BeginCommentPatternAction.");
+token DolarSignPatternAction(const char * lexeme) {
+	LogDebug("DolarSignPatternAction: '%s'.", lexeme);
+	yylval.token = DOLLARSIGN;
+	return DOLLARSIGN;
 }
 
-void EndCommentPatternAction() {
-	LogDebug("EndCommentPatternAction.");
+token CurlyOpenPatternAction(const char * lexeme) {
+	LogDebug("CurlyOpenPatternAction: '%s'.", lexeme);
+	yylval.token = CURLYOPEN;
+	return CURLYOPEN;
 }
 
-token AdditionOperatorPatternAction(const char * lexeme) {
-	LogDebug("AdditionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = ADD;
-	return ADD;
+token CurlyClosePatternAction(const char * lexeme) {
+	LogDebug("CurlyClosePatternAction: '%s'.", lexeme);
+	yylval.token = CURLYCLOSE;
+	return CURLYCLOSE;
 }
 
-token CloseParenthesisPatternAction(const char * lexeme) {
-	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = CLOSE_PARENTHESIS;
-	return CLOSE_PARENTHESIS;
-}
-
-token DivisionOperatorPatternAction(const char * lexeme) {
-	LogDebug("DivisionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = DIV;
-	return DIV;
-}
-
-token IntegerPatternAction(const char * lexeme, const int length) {
-	LogDebug("IntegerPatternAction: '%s' (length = %d).", lexeme, length);
-	yylval.integer = atoi(lexeme);
-	return INTEGER;
-}
-
-token MultiplicationOperatorPatternAction(const char * lexeme) {
-	LogDebug("MultiplicationOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = MUL;
-	return MUL;
-}
 
 token OpenParenthesisPatternAction(const char * lexeme) {
 	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = OPEN_PARENTHESIS;
-	return OPEN_PARENTHESIS;
+	yylval.token = PARENTHESISOPEN;
+	return PARENTHESISOPEN;
 }
 
-token SubtractionOperatorPatternAction(const char * lexeme) {
-	LogDebug("SubtractionOperatorPatternAction: '%s'.", lexeme);
-	yylval.token = SUB;
-	return SUB;
+token CloseParenthesisPatternAction(const char * lexeme){
+	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
+	yylval.token = PARENTHESISCLOSE;
+	return PARENTHESISCLOSE;
 }
+
+token ArgumentsSeparatorAction(const char * lexeme) {
+	LogDebug("ArgumentsSeparatorAction: '%s'.", lexeme);
+	yylval.token = COMMA;
+	return COMMA;
+}
+
+
+
+token UserTextPatternAction(const char * yytext,const int yyleng){
+	//cuando compile deberia andar
+	yylval.token = TEXT;
+	return TEXT;
+}
+
+
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
 	yylval.token = YYUNDEF;
 	// Al emitir este token, el compilador aborta la ejecución.
 	return YYUNDEF;
-}
-
-void IgnoredPatternAction(const char * lexeme, const int length) {
-	LogDebug("IgnoredPatternAction: '%s' (length = %d).", lexeme, length);
-	// Como no debe hacer nada con el patrón, solo se loguea en consola.
 }

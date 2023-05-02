@@ -9,64 +9,68 @@
 	// No-terminales (backend).
 	/*
 	Program program;
-	Expression expression;
-	Factor factor;
-	Constant constant;
 	...
 	*/
 
-	// No-terminales (frontend).
-	int program;
-	int expression;
-	int factor;
-	int constant;
-
-	// Terminales.
+	//terminales
 	token token;
-	int integer;
+
+	//terminales y no terminales
+	int program;
+	int data;
 }
 
 // IDs y tipos de los tokens terminales generados desde Flex.
-%token <token> ADD
-%token <token> SUB
-%token <token> MUL
-%token <token> DIV
+%token <token> DOLLARSIGN
+%token <token> CURLYOPEN
+%token <token> CURLYCLOSE
+%token <token> PARENTHESISOPEN
+%token <token> COMMA
+%token <token> PARENTHESISCLOSE
+%token <token> NUMBER
+%token <token> COLOR 
+%token <token> BULLETSTYLE
+%token <token> TEXT 
 
-%token <token> OPEN_PARENTHESIS
-%token <token> CLOSE_PARENTHESIS
 
-%token <integer> INTEGER
 
 // Tipos de dato para los no-terminales generados desde Bison.
 %type <program> program
-%type <expression> expression
-%type <factor> factor
-%type <constant> constant
-
-// Reglas de asociatividad y precedencia (de menor a mayor).
-%left ADD SUB
-%left MUL DIV
-
+%type <data> texto
+%type <data> platasomething
+%type <data> something
+%type <data> tagname2
+%type <data> tagname
+%type <data> fontsize
+%type <data> bulletstyle
+%type <data> fontcolor
+%type <data> bulletcolor
 // El símbolo inicial de la gramatica.
 %start program
 
 %%
 
-program: expression													{ $$ = ProgramGrammarAction($1); }
+program: something {$$ = 0;}/*lambda*/
 	;
 
-expression: expression[left] ADD expression[right]					{ $$ = AdditionExpressionGrammarAction($left, $right); }
-	| expression[left] SUB expression[right]						{ $$ = SubtractionExpressionGrammarAction($left, $right); }
-	| expression[left] MUL expression[right]						{ $$ = MultiplicationExpressionGrammarAction($left, $right); }
-	| expression[left] DIV expression[right]						{ $$ = DivisionExpressionGrammarAction($left, $right); }
-	| factor														{ $$ = FactorExpressionGrammarAction($1); }
+something: texto something  { $$ = 0; } 
+	| platasomething something {$$ = 0; }
+	| texto { $$ = 0; }
+	| platasomething { $$ = 0; }
 	;
 
-factor: OPEN_PARENTHESIS expression CLOSE_PARENTHESIS				{ $$ = ExpressionFactorGrammarAction($2); }
-	| constant														{ $$ = ConstantFactorGrammarAction($1); }
+
+platasomething: DOLLARSIGN tagname PARENTHESISOPEN fontsize COMMA fontcolor PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE { $$ = 0; }
+	| DOLLARSIGN tagname2 PARENTHESISOPEN bulletcolor COMMA bulletstyle PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE { $$ = 0; } 
 	;
 
-constant: INTEGER													{ $$ = IntegerConstantGrammarAction($1); }
-	;
+texto: TEXT  { $$ = 0; };
+fontsize: NUMBER { $$ = 0; };
+fontcolor: COLOR { $$ = 0; };
+bulletcolor: COLOR {$$ = 0; };
+bulletstyle:  BULLETSTYLE { $$ = 0; };
+tagname: TEXT { $$ = 0; };
+tagname2: TEXT { $$ = 0; };
+
 
 %%

@@ -19,18 +19,16 @@
  * largo de aquello que se va a almacenar.
  */
 
-// Bloque de comentarios multilínea.
-void BeginCommentPatternAction();
-void EndCommentPatternAction();
 
-// Patrones terminales del lenguaje diseñado.
-token AdditionOperatorPatternAction(const char * lexeme);
-token CloseParenthesisPatternAction(const char * lexeme);
-token DivisionOperatorPatternAction(const char * lexeme);
-token IntegerPatternAction(const char * lexeme, const int length);
-token MultiplicationOperatorPatternAction(const char * lexeme);
+
+
+token DolarSignPatternAction(const char * lexeme);
+token CurlyOpenPatternAction(const char * lexeme);
+token CurlyClosePatternAction(const char * lexeme);
 token OpenParenthesisPatternAction(const char * lexeme);
-token SubtractionOperatorPatternAction(const char * lexeme);
+token CloseParenthesisPatternAction(const char * lexeme);
+token ArgumentsSeparatorAction(const char * lexeme);
+token UserTextPatternAction(const char * yytext,const int yyleng);
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
 token UnknownPatternAction(const char * lexeme, const int length);
