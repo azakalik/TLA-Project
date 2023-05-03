@@ -17,11 +17,9 @@
  * el que Bison proveerá como valor semántico al realizar una reducción
  * (mediante $1, $2, $3, etc.).
  */
-token DolarSignPatternAction(const char * lexeme) {
-	LogDebug("DolarSignPatternAction: '%s'.", lexeme);
-	yylval.token = DOLLARSIGN;
-	return DOLLARSIGN;
-}
+
+
+
 
 token CurlyOpenPatternAction(const char * lexeme) {
 	LogDebug("CurlyOpenPatternAction: '%s'.", lexeme);
@@ -36,38 +34,20 @@ token CurlyClosePatternAction(const char * lexeme) {
 }
 
 
-token OpenParenthesisPatternAction(const char * lexeme) {
-	LogDebug("OpenParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = PARENTHESISOPEN;
-	return PARENTHESISOPEN;
+token Directive1PatternAction(const char * lexeme) {
+	yylval.token = DIRECTIVE1;
+	return DIRECTIVE1;
 }
 
-token CloseParenthesisPatternAction(const char * lexeme){
-	LogDebug("CloseParenthesisPatternAction: '%s'.", lexeme);
-	yylval.token = PARENTHESISCLOSE;
-	return PARENTHESISCLOSE;
+token Directive2PatternAction(const char * lexeme){
+	yylval.token = DIRECTIVE2;
+	return DIRECTIVE2;
 }
 
-token ArgumentsSeparatorAction(const char * lexeme) {
-	LogDebug("ArgumentsSeparatorAction: '%s'.", lexeme);
-	yylval.token = COMMA;
-	return COMMA;
+token Directive3PatternAction(const char * lexeme){
+	yylval.token = DIRECTIVE3;
+	return DIRECTIVE3;
 }
-
-
-
-token UserTextPatternAction(const char * yytext,const int yyleng){
-	//cuando compile deberia andar
-	yylval.token = TEXT;
-	return TEXT;
-}
-
-token EndlinePatternAttribute(const char * lexeme, const int length) {
-	LogDebug("EndlinePatternAttribute: '%s' (length = %d).", lexeme, length);
-	yylval.token = ENDLINE;
-	return ENDLINE;
-}
-
 
 token UnknownPatternAction(const char * lexeme, const int length) {
 	LogDebug("UnknownPatternAction: '%s' (length = %d).", lexeme, length);
@@ -76,7 +56,13 @@ token UnknownPatternAction(const char * lexeme, const int length) {
 	return YYUNDEF;
 }
 
+token UserTextPatternAction(const char * lexeme) {
+	yylval.token = USERTEXT;
+	return USERTEXT;
+}
+
 void IgnoredPatternAction(const char * lexeme, const int length) {
 	LogDebug("IgnoredPatternAction: '%s' (length = %d).", lexeme, length);
 	// Como no debe hacer nada con el patrón, solo se loguea en consola.
+
 }

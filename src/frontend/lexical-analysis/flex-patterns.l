@@ -29,21 +29,13 @@ number          [0-9]+
 
 
 
-"$"					   { return DolarSignPatternAction(yytext); }
-"("                    { return OpenParenthesisPatternAction(yytext); }
-")"                    { return CloseParenthesisPatternAction(yytext); }
-"{"                    { return CurlyOpenPatternAction(yytext); }
-"}"                    { return CurlyClosePatternAction(yytext); }
-","                    { return ArgumentsSeparatorAction(yytext); }
-[^$]*                  { return UserTextPatternAction(yytext, yyleng); }
 
-"$TITLE"                {}
-"$BOLD"
-"$ITALIC"
-
-{endline}              { EndlinePatternAttribute(yytext, yyleng); }
-{whitespace}		   { IgnoredPatternAction(yytext, yyleng); }
-.		               { return UnknownPatternAction(yytext, yyleng); }
+\$(TITLE|BOLD|ITALIC)\(\s*(\d+)\s*,\s*(blue|red)\s*\)   { return Directive1PatternAction(yytext); }
+\$(UL|OL)\(\s*(square|circle)\s*,\s*(red|blue)\s*\)     { return Directive2PatternAction(yytext); }
+\$HR\(\s*(\d+)\s*,\s*(circle|square)\s*\)               { return Directive3PatternAction(yytext); }
+"{"                                                     { return CurlyOpenPatternAction(yytext); }
+"}"                                                     { return CurlyClosePatternAction(yytext); }
+[^${};]*                                                { return UserTextPatternAction(yytext); }                             
+.                                                       { return UnknownPatternAction(yytext,yyleng); }
 %%
-
 

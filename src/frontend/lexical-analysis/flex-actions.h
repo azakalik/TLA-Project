@@ -22,20 +22,16 @@
 
 
 
-token DolarSignPatternAction(const char * lexeme);
 token CurlyOpenPatternAction(const char * lexeme);
 token CurlyClosePatternAction(const char * lexeme);
-token OpenParenthesisPatternAction(const char * lexeme);
-token CloseParenthesisPatternAction(const char * lexeme);
-token ArgumentsSeparatorAction(const char * lexeme);
-token UserTextPatternAction(const char * yytext,const int yyleng);
+token Directive1PatternAction(const char * lexeme);
+token Directive2PatternAction(const char * lexeme);
+token Directive3PatternAction(const char * lexeme);
 
-token EndlinePatternAttribute(const char * lexeme, const int length);
+token UserTextPatternAction(const char * lexeme);
 
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
 token UnknownPatternAction(const char * lexeme, const int length);
 
-// Regla que no hace nada, permite ignorar parte de la entrada.
-void IgnoredPatternAction(const char * lexeme, const int length);
 
 #endif
