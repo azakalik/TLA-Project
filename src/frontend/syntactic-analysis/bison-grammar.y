@@ -60,27 +60,27 @@
 
 %%
 
-program: something
+program: something { $$ = ProgramGrammarAction(1);}
 	;
 
-something: texto something   
-	| platasomething something
-	| texto 
-	| platasomething 
+something: texto something   {$$ = 0;}
+	| platasomething something {$$ = 0;}
+	| texto { $$ = 0; }
+	| platasomething  { $$ = 0;}
 	;
 
 
-platasomething: DOLLARSIGN tagname PARENTHESISOPEN fontsize COMMA fontcolor PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE 
-	| DOLLARSIGN tagname2 PARENTHESISOPEN bulletcolor COMMA bulletstyle PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE  
+platasomething: DOLLARSIGN tagname PARENTHESISOPEN fontsize COMMA fontcolor PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE { $$ = 0;}
+	| DOLLARSIGN tagname2 PARENTHESISOPEN bulletcolor COMMA bulletstyle PARENTHESISCLOSE CURLYOPEN something CURLYCLOSE  { $$ = 0;}
 	;
 
-texto: TEXT ;
-fontsize: NUMBER ;
-fontcolor: COLOR ;
-bulletcolor: COLOR ;
-bulletstyle:  BULLETSTYLE ;
-tagname: TEXT ;
-tagname2: TEXT ;
+texto: TEXT { $$ = 0; };
+fontsize: NUMBER { $$ = 0; } ;
+fontcolor: COLOR { $$ = 0; };
+bulletcolor: COLOR { $$ = 0; };
+bulletstyle:  BULLETSTYLE { $$ = 0;};
+tagname: TEXT { $$ = 0; } ;
+tagname2: TEXT { $$ = 0; };
 
 
 %%
