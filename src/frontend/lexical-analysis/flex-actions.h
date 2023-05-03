@@ -30,6 +30,8 @@ token CloseParenthesisPatternAction(const char * lexeme);
 token ArgumentsSeparatorAction(const char * lexeme);
 token UserTextPatternAction(const char * yytext,const int yyleng);
 
+token EndlinePatternAttribute(const char * lexeme, const int length);
+
 // Patrón desconocido, permite abortar debido a un error de sintaxis.
 token UnknownPatternAction(const char * lexeme, const int length);
 

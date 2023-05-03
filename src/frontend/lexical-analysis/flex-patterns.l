@@ -17,20 +17,33 @@
 %x EASYNOTESDIRECTIVE
 
 /* Patrones reutilizables. */
+endline			\n
+whitespace		[ \f\n\r\t\v]
+crlf			\r\n
+color           (black|red|blue|yellow|green|orange|purple)
+font            (Arial|Times|Calibri|Helvetica)
+number          [0-9]+
 
 
 %%
 
 
 
-"$"											{  return DolarSignPatternAction(yytext); BEGIN(EASYNOTESDIRECTIVE); }
-<EASYNOTESDIRECTIVE>"("                    { return OpenParenthesisPatternAction(yytext); }
-<EASYNOTESDIRECTIVE>")"                    { return CloseParenthesisPatternAction(yytext); }
-<EASYNOTESDIRECTIVE>"{"                      { return CurlyOpenPatternAction(yytext); }
-<EASYNOTESDIRECTIVE>"}"                      { return CurlyClosePatternAction(yytext); BEGIN(INITIAL); }
-<EASYNOTESDIRECTIVE>","                      { return ArgumentsSeparatorAction(yytext); }
-[^$]*                                        { return UserTextPatternAction(yytext, yyleng); }
-.											{ return UnknownPatternAction(yytext, yyleng); }
+"$"					   { return DolarSignPatternAction(yytext); }
+"("                    { return OpenParenthesisPatternAction(yytext); }
+")"                    { return CloseParenthesisPatternAction(yytext); }
+"{"                    { return CurlyOpenPatternAction(yytext); }
+"}"                    { return CurlyClosePatternAction(yytext); }
+","                    { return ArgumentsSeparatorAction(yytext); }
+[^$]*                  { return UserTextPatternAction(yytext, yyleng); }
+
+"$TITLE"                {}
+"$BOLD"
+"$ITALIC"
+
+{endline}              { EndlinePatternAttribute(yytext, yyleng); }
+{whitespace}		   { IgnoredPatternAction(yytext, yyleng); }
+.		               { return UnknownPatternAction(yytext, yyleng); }
 %%
 
 

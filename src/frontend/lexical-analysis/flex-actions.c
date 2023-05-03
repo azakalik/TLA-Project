@@ -62,6 +62,11 @@ token UserTextPatternAction(const char * yytext,const int yyleng){
 	return TEXT;
 }
 
+token EndlinePatternAttribute(const char * lexeme, const int length) {
+	LogDebug("EndlinePatternAttribute: '%s' (length = %d).", lexeme, length);
+	yylval.token = ENDLINE;
+	return ENDLINE;
+}
 
 
 token UnknownPatternAction(const char * lexeme, const int length) {
@@ -69,4 +74,9 @@ token UnknownPatternAction(const char * lexeme, const int length) {
 	yylval.token = YYUNDEF;
 	// Al emitir este token, el compilador aborta la ejecución.
 	return YYUNDEF;
+}
+
+void IgnoredPatternAction(const char * lexeme, const int length) {
+	LogDebug("IgnoredPatternAction: '%s' (length = %d).", lexeme, length);
+	// Como no debe hacer nada con el patrón, solo se loguea en consola.
 }
