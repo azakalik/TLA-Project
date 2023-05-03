@@ -47,15 +47,16 @@ program: expressions { $$ = ProgramGrammarAction(1);}
 	;
 
 expressions: expression expressions { printf("expressions --> expression expressions"); $$ = 0; }
-| USERTEXT { printf("expressions --> USERTEXT")  $$ = 0; }
+| USERTEXT { printf("expressions --> USERTEXT");  $$ = 0; } 
+|
 ;
 
 expression: USERTEXT directive { printf("expression --> USERTEXT directive"); $$ = 0; }
 | directive { printf("expression --> directive"); $$ = 0;}
-| USERTEXT { printf("expression --> USERTEXT") $$ = 0; }
+| USERTEXT { printf("expression --> USERTEXT"); $$ = 0; }
 ;
 
-directive: DIRECTIVE1 CURLYOPEN expression CURLYCLOSE { printf("directive --> d1") $$ = 0; }
+directive: DIRECTIVE1 CURLYOPEN expression CURLYCLOSE { printf("directive --> d1"); $$ = 0; }
 | DIRECTIVE3 expression { printf("directive --> d2"); $$ = 0; }
 ;
 
